@@ -7,16 +7,15 @@ import (
 func (sdc *SDC) ConvertToPriceMaster() *requests.PriceMaster {
 	data := sdc.PriceMaster
 	return &requests.PriceMaster{
-		BusinessPartner:            data.BusinessPartner,
-		ConditionRecordCategory:    data.ConditionRecordCategory,
+		SupplyChainRelationshipID:  data.SupplyChainRelationshipID,
+		Buyer:                      data.Buyer,
+		Seller:                     data.Seller,
 		ConditionRecord:            data.ConditionRecord,
 		ConditionSequentialNumber:  data.ConditionSequentialNumber,
-		ConditionType:              data.ConditionType,
 		ConditionValidityEndDate:   data.ConditionValidityEndDate,
 		ConditionValidityStartDate: data.ConditionValidityStartDate,
-		Product:                    data.Product,
-		Customer:                   data.Customer,
-		Supplier:                   data.Supplier,
+		Product:                    &data.Product,
+		ConditionType:              &data.ConditionType,
 		CreationDate:               data.CreationDate,
 		ConditionRateValue:         data.ConditionRateValue,
 		ConditionRateValueUnit:     data.ConditionRateValueUnit,

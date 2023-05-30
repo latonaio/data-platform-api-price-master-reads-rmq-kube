@@ -25,34 +25,24 @@ type SDC struct {
 }
 
 type Message struct {
-	PriceMaster *PriceMaster `json:"General"`
-}
-
-type PriceMasterReads struct {
-	ConnectionKey string `json:"connection_key"`
-	Result        bool   `json:"result"`
-	RedisKey      string `json:"redis_key"`
-	Filepath      string `json:"filepath"`
-	Product       string `json:"Product"`
-	APISchema     string `json:"api_schema"`
-	MaterialCode  string `json:"material_code"`
-	Deleted       string `json:"deleted"`
+	PriceMaster []PriceMaster `json:"PriceMaster"`
 }
 
 type PriceMaster struct {
-	BusinessPartner            int      `json:"BusinessPartner"`
-	ConditionRecordCategory    string   `json:"ConditionRecordCategory"`
+	SupplyChainRelationshipID  int      `json:"SupplyChainRelationshipID"`
+	Buyer                      int      `json:"Buyer"`
+	Seller                     int      `json:"Seller"`
 	ConditionRecord            int      `json:"ConditionRecord"`
 	ConditionSequentialNumber  int      `json:"ConditionSequentialNumber"`
-	ConditionType              string   `json:"ConditionType"`
 	ConditionValidityEndDate   string   `json:"ConditionValidityEndDate"`
 	ConditionValidityStartDate string   `json:"ConditionValidityStartDate"`
-	Product                    string   `json:"Product"`
-	Customer                   *int     `json:"Customer"`
-	Supplier                   *int     `json:"Supplier"`
+	Product                    *string  `json:"Product"`
+	ConditionType              *string  `json:"ConditionType"`
 	CreationDate               *string  `json:"CreationDate"`
+	LastChangeDate             *string  `json:"LastChangeDate"`
 	ConditionRateValue         *float32 `json:"ConditionRateValue"`
 	ConditionRateValueUnit     *string  `json:"ConditionRateValueUnit"`
+	ConditionScaleQuantity     *float32 `json:"ConditionScaleQuantity"`
 	ConditionRateRatio         *float32 `json:"ConditionRateRatio"`
 	ConditionRateRatioUnit     *string  `json:"ConditionRateRatioUnit"`
 	ConditionCurrency          *string  `json:"ConditionCurrency"`

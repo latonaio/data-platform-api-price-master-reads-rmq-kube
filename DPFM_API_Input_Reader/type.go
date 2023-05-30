@@ -70,16 +70,16 @@ type SDC struct {
 }
 
 type PriceMaster struct {
-	BusinessPartner            int      `json:"BusinessPartner"`
+    SupplyChainRelationshipID  int      `json:"SupplyChainRelationshipID"`
+	Buyer                      int      `json:"Buyer"`
+	Seller                     int      `json:"Seller"`
 	ConditionRecordCategory    string   `json:"ConditionRecordCategory"`
 	ConditionRecord            int      `json:"ConditionRecord"`
 	ConditionSequentialNumber  int      `json:"ConditionSequentialNumber"`
-	ConditionType              string   `json:"ConditionType"`
 	ConditionValidityEndDate   string   `json:"ConditionValidityEndDate"`
 	ConditionValidityStartDate string   `json:"ConditionValidityStartDate"`
 	Product                    string   `json:"Product"`
-	Customer                   *int     `json:"Customer"`
-	Supplier                   *int     `json:"Supplier"`
+	ConditionType              string   `json:"ConditionType"`
 	CreationDate               *string  `json:"CreationDate"`
 	ConditionRateValue         *float32 `json:"ConditionRateValue"`
 	ConditionRateValueUnit     *string  `json:"ConditionRateValueUnit"`

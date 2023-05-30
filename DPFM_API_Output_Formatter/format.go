@@ -7,9 +7,8 @@ import (
 	"fmt"
 )
 
-func ConvertToPriceMaster(sdc *api_input_reader.SDC, rows *sql.Rows) (*PriceMaster, error) {
-	pm := &requests.PriceMaster{}
-
+func ConvertToPriceMaster(sdc *api_input_reader.SDC, rows *sql.Rows) ([]PriceMaster, error) {
+	priceMaster := make([]PriceMaster, 0)
 	for i := 0; true; i++ {
 		if !rows.Next() {
 			if i == 0 {
@@ -18,20 +17,22 @@ func ConvertToPriceMaster(sdc *api_input_reader.SDC, rows *sql.Rows) (*PriceMast
 				break
 			}
 		}
+		pm := &requests.PriceMaster{}
 		err := rows.Scan(
-			&pm.BusinessPartner,
-			&pm.ConditionRecordCategory,
+			&pm.SupplyChainRelationshipID,
+			&pm.Buyer,
+			&pm.Seller,
 			&pm.ConditionRecord,
 			&pm.ConditionSequentialNumber,
-			&pm.ConditionType,
 			&pm.ConditionValidityEndDate,
 			&pm.ConditionValidityStartDate,
 			&pm.Product,
-			&pm.Customer,
-			&pm.Supplier,
+			&pm.ConditionType,
 			&pm.CreationDate,
+			&pm.LastChangeDate,
 			&pm.ConditionRateValue,
 			&pm.ConditionRateValueUnit,
+			&pm.ConditionScaleQuantity,
 			&pm.ConditionRateRatio,
 			&pm.ConditionRateRatioUnit,
 			&pm.ConditionCurrency,
@@ -42,28 +43,31 @@ func ConvertToPriceMaster(sdc *api_input_reader.SDC, rows *sql.Rows) (*PriceMast
 			fmt.Printf("err = %+v \n", err)
 			return nil, err
 		}
-	}
-	data := pm
+		data := pm
 
-	priceMaster := &PriceMaster{
-		BusinessPartner:            data.BusinessPartner,
-		ConditionRecordCategory:    data.ConditionRecordCategory,
-		ConditionRecord:            data.ConditionRecord,
-		ConditionSequentialNumber:  data.ConditionSequentialNumber,
-		ConditionType:              data.ConditionType,
-		ConditionValidityEndDate:   data.ConditionValidityEndDate,
-		ConditionValidityStartDate: data.ConditionValidityStartDate,
-		Product:                    data.Product,
-		Customer:                   data.Customer,
-		Supplier:                   data.Supplier,
-		CreationDate:               data.CreationDate,
-		ConditionRateValue:         data.ConditionRateValue,
-		ConditionRateValueUnit:     data.ConditionRateValueUnit,
-		ConditionRateRatio:         data.ConditionRateRatio,
-		ConditionRateRatioUnit:     data.ConditionRateRatioUnit,
-		ConditionCurrency:          data.ConditionCurrency,
-		BaseUnit:                   data.BaseUnit,
-		ConditionIsDeleted:         data.ConditionIsDeleted,
+		priceMaster = append(priceMaster, PriceMaster{
+			SupplyChainRelationshipID:  data.SupplyChainRelationshipID,
+			Buyer:                      data.Buyer,
+			Seller:                     data.Seller,
+			ConditionRecord:            data.ConditionRecord,
+			ConditionSequentialNumber:  data.ConditionSequentialNumber,
+			ConditionValidityEndDate:   data.ConditionValidityEndDate,
+			ConditionValidityStartDate: data.ConditionValidityStartDate,
+			Product:                    data.Product,
+			ConditionType:              data.ConditionType,
+			CreationDate:               data.CreationDate,
+			LastChangeDate:             data.LastChangeDate,
+			ConditionRateValue:         data.ConditionRateValue,
+			ConditionRateValueUnit:     data.ConditionRateValueUnit,
+			ConditionScaleQuantity:     data.ConditionScaleQuantity,
+			ConditionRateRatio:         data.ConditionRateRatio,
+			ConditionRateRatioUnit:     data.ConditionRateRatioUnit,
+			ConditionCurrency:          data.ConditionCurrency,
+			BaseUnit:                   data.BaseUnit,
+			ConditionIsDeleted:         data.ConditionIsDeleted,
+		})
+
 	}
+
 	return priceMaster, nil
 }

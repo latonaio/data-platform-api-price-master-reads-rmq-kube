@@ -34,10 +34,8 @@ func (c *DPFMAPICaller) readSqlProcess(
 		}
 	}
 
-	data := &dpfm_api_output_formatter.SDC{
-		Message: dpfm_api_output_formatter.Message{
-			PriceMaster: priceMaster,
-		},
+	data := &dpfm_api_output_formatter.Message{
+		PriceMaster: priceMaster,
 	}
 
 	return data

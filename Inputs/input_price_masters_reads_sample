@@ -1,0 +1,36 @@
+{
+	"connection_key": "request",
+	"result": true,
+	"redis_key": "abcdefg",
+	"filepath": "/var/lib/aion/Data/rededge_sdc/abcdef.json",
+	"api_status_code": 200,
+	"runtime_session_id": "boi9ar543dg91ipdnspi099u231280ab0v8af0ew",
+	"business_partner": null,
+	"service_label": "PRODUCT_MASTER",
+	"api_type": "",
+	"PriceMaster": {
+		"SupplyChainRelationshipID": null,
+		"Buyer": 101,
+		"Seller": 201,
+		"ConditionRecord": null,
+		"ConditionSequentialNumber": null,
+		"ConditionValidityEndDate": null,
+		"ConditionValidityStartDate": null,
+		"Product": null,
+		"ConditionType": null,
+		"CreationDate": null,
+		"ConditionRateValue": null,
+		"ConditionRateValueUnit": null,
+		"ConditionRateRatio": null,
+		"ConditionRateRatioUnit": null,
+		"ConditionCurrency": null,
+		"BaseUnit": null,
+		"ConditionIsDeleted": null
+	},
+	"api_schema": "DPFMPriceMasterReads",
+	"accepter": [
+		"PriceMasters"
+	],
+	"price_master_id": null,
+	"deleted": false
+}

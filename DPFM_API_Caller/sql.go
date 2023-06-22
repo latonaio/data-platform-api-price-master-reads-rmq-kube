@@ -88,7 +88,11 @@ func (c *DPFMAPICaller) PriceMasters(
 	log *logger.Logger,
 ) []dpfm_api_output_formatter.PriceMaster {
 	priceMster := input.PriceMaster
-	where := fmt.Sprintf("WHERE Buyer = %d OR Seller = %d", priceMster.Buyer, priceMster.Seller)
+	where := fmt.Sprintf("WHERE (Buyer = %d OR Seller = %d)", priceMster.Buyer, priceMster.Seller)
+
+	if input.PriceMaster.SupplyChainRelationshipID > 0 {
+		where = fmt.Sprintf("%s\nAND SupplyChainRelationshipID = %v", where, input.PriceMaster.SupplyChainRelationshipID)
+	}
 
 	rows, err := c.db.Query(
 		`SELECT 

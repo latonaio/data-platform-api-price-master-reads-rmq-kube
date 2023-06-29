@@ -48,23 +48,36 @@ func (c *DPFMAPICaller) PriceMaster(
 	errs *[]error,
 	log *logger.Logger,
 ) []dpfm_api_output_formatter.PriceMaster {
-	businessPartner := input.PriceMaster.Buyer
-	conditionRecordCategory := input.PriceMaster.ConditionRecordCategory
+	supplyChainRelationshipID := input.PriceMaster.SupplyChainRelationshipID
+	buyer := input.PriceMaster.Buyer
+	seller := input.PriceMaster.Seller
 	conditionRecord := input.PriceMaster.ConditionRecord
 	conditionSequentialNumber := input.PriceMaster.ConditionSequentialNumber
-	conditionType := input.PriceMaster.ConditionType
-	conditionValidityEndDate := input.PriceMaster.ConditionValidityEndDate
-	conditionValidityStartDate := input.PriceMaster.ConditionValidityStartDate
 	product := input.PriceMaster.Product
+	conditionValidityStartDate := input.PriceMaster.ConditionValidityStartDate
+	conditionValidityEndDate := input.PriceMaster.ConditionValidityEndDate
 
 	rows, err := c.db.Query(
-		`SELECT BusinessPartner, ConditionRecordCategory, ConditionRecord, ConditionSequentialNumber, 
-		ConditionType, ConditionValidityEndDate, ConditionValidityStartDate, Product, Customer, Supplier, 
-		CreationDate, ConditionRateValue, ConditionRateValueUnit, ConditionRateRatio, ConditionRateRatioUnit, 
-		ConditionCurrency, BaseUnit, ConditionIsDeleted
+		`SELECT *
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_price_master_price_master_data
-		WHERE (BusinessPartner, ConditionRecordCategory, ConditionRecord, ConditionSequentialNumber, 
-		ConditionType, ConditionValidityEndDate, ConditionValidityStartDate, Product) = (?, ?, ?, ?, ?, ?, ?, ?);`, businessPartner, conditionRecordCategory, conditionRecord, conditionSequentialNumber, conditionType, conditionValidityEndDate, conditionValidityStartDate, product,
+		WHERE (
+		       SupplyChainRelationshipID,
+		       Buyer,
+		       Seller,
+		       ConditionRecord,
+		       ConditionSequentialNumber,
+		       Product,
+		       ConditionValidityStartDate,
+		       ConditionValidityEndDate
+		) = (?, ?, ?, ?, ?, ?, ?);`,
+		supplyChainRelationshipID,
+		buyer,
+		seller,
+		conditionRecord,
+		conditionSequentialNumber,
+		product,
+		conditionValidityStartDate,
+		conditionValidityEndDate,
 	)
 	if err != nil {
 		*errs = append(*errs, err)
@@ -95,11 +108,7 @@ func (c *DPFMAPICaller) PriceMasters(
 	}
 
 	rows, err := c.db.Query(
-		`SELECT 
-		SupplyChainRelationshipID, Buyer, Seller, ConditionRecord, ConditionSequentialNumber,
-		ConditionValidityEndDate, ConditionValidityStartDate, Product, ConditionType, CreationDate,
-		LastChangeDate, ConditionRateValue, ConditionRateValueUnit, ConditionScaleQuantity,
-		ConditionRateRatio, ConditionRateRatioUnit, ConditionCurrency, BaseUnit, ConditionIsDeleted
+		`SELECT *
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_price_master_price_master_data
 		` + where + ` ;`,
 	)

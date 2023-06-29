@@ -24,8 +24,8 @@ func ConvertToPriceMaster(sdc *api_input_reader.SDC, rows *sql.Rows) ([]PriceMas
 			&pm.Seller,
 			&pm.ConditionRecord,
 			&pm.ConditionSequentialNumber,
-			&pm.ConditionValidityEndDate,
 			&pm.ConditionValidityStartDate,
+			&pm.ConditionValidityEndDate,
 			&pm.Product,
 			&pm.ConditionType,
 			&pm.CreationDate,
@@ -33,11 +33,8 @@ func ConvertToPriceMaster(sdc *api_input_reader.SDC, rows *sql.Rows) ([]PriceMas
 			&pm.ConditionRateValue,
 			&pm.ConditionRateValueUnit,
 			&pm.ConditionScaleQuantity,
-			&pm.ConditionRateRatio,
-			&pm.ConditionRateRatioUnit,
 			&pm.ConditionCurrency,
-			&pm.BaseUnit,
-			&pm.ConditionIsDeleted,
+			&pm.IsMarkedForDeletion,
 		)
 		if err != nil {
 			fmt.Printf("err = %+v \n", err)
@@ -51,8 +48,8 @@ func ConvertToPriceMaster(sdc *api_input_reader.SDC, rows *sql.Rows) ([]PriceMas
 			Seller:                     data.Seller,
 			ConditionRecord:            data.ConditionRecord,
 			ConditionSequentialNumber:  data.ConditionSequentialNumber,
-			ConditionValidityEndDate:   data.ConditionValidityEndDate,
 			ConditionValidityStartDate: data.ConditionValidityStartDate,
+			ConditionValidityEndDate:   data.ConditionValidityEndDate,
 			Product:                    data.Product,
 			ConditionType:              data.ConditionType,
 			CreationDate:               data.CreationDate,
@@ -60,11 +57,8 @@ func ConvertToPriceMaster(sdc *api_input_reader.SDC, rows *sql.Rows) ([]PriceMas
 			ConditionRateValue:         data.ConditionRateValue,
 			ConditionRateValueUnit:     data.ConditionRateValueUnit,
 			ConditionScaleQuantity:     data.ConditionScaleQuantity,
-			ConditionRateRatio:         data.ConditionRateRatio,
-			ConditionRateRatioUnit:     data.ConditionRateRatioUnit,
 			ConditionCurrency:          data.ConditionCurrency,
-			BaseUnit:                   data.BaseUnit,
-			ConditionIsDeleted:         data.ConditionIsDeleted,
+			IsMarkedForDeletion:        data.IsMarkedForDeletion,
 		})
 
 	}

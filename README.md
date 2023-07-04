@@ -1,7 +1,7 @@
 # data-platform-api-price-master-reads-rmq-kube
 
-data-platform-api-price-master-reads-rmq-kube は、周辺業務システム　を データ連携基盤 と統合することを目的に、API で価格マスタデータを登録するマイクロサービスです。  
-https://xxx.xxx.io/api/API_PRICE_MASTER_SRV/creates/
+data-platform-api-price-master-reads-rmq-kube は、周辺業務システム　を データ連携基盤 と統合することを目的に、API で価格マスタデータを取得するマイクロサービスです。  
+https://xxx.xxx.io/api/API_PRICE_MASTER_SRV/reads/
 
 ## 動作環境
 
@@ -37,8 +37,6 @@ accepter において 下記の例のように、データの種別（＝APIの�
 ```
 	"api_schema": "DPFMPriceMasterReads",
 	"accepter": ["PriceMaster"],
-	"price_master_id": null,
-	"deleted": false
 ```
   
 * 全データを取得する際のsample.jsonの記載例(2)  
@@ -83,4 +81,3 @@ func (c *DPFMAPICaller) AsyncPriceMasterReads(
 ```
 XXX
 ```
-

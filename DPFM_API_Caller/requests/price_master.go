@@ -6,15 +6,15 @@ type PriceMaster struct {
 	Seller                     int      `json:"Seller"`
 	ConditionRecord            int      `json:"ConditionRecord"`
 	ConditionSequentialNumber  int      `json:"ConditionSequentialNumber"`
+	Product                    string   `json:"Product"`
 	ConditionValidityStartDate string   `json:"ConditionValidityStartDate"`
 	ConditionValidityEndDate   string   `json:"ConditionValidityEndDate"`
-	Product                    *string  `json:"Product"`
-	ConditionType              *string  `json:"ConditionType"`
-	CreationDate               *string  `json:"CreationDate"`
-	LastChangeDate             *string  `json:"LastChangeDate"`
-	ConditionRateValue         *float32 `json:"ConditionRateValue"`
-	ConditionRateValueUnit     *int     `json:"ConditionRateValueUnit"`
-	ConditionScaleQuantity     *int     `json:"ConditionScaleQuantity"`
-	ConditionCurrency          *string  `json:"ConditionCurrency"`
+	ConditionType              string   `json:"ConditionType"`
+	ConditionRateValue         float32  `json:"ConditionRateValue"`
+	ConditionRateValueUnit     int      `json:"ConditionRateValueUnit"`
+	ConditionScaleQuantity     int      `json:"ConditionScaleQuantity"`
+	ConditionCurrency          string   `json:"ConditionCurrency"`
+	CreationDate               string   `json:"CreationDate"`
+	LastChangeDate             string   `json:"LastChangeDate"`
 	IsMarkedForDeletion        *bool    `json:"IsMarkedForDeletion"`
 }

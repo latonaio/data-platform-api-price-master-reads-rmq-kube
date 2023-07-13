@@ -19,7 +19,7 @@ func (c *DPFMAPICaller) readSqlProcess(
 	errs *[]error,
 	log *logger.Logger,
 ) interface{} {
-	var priceMaster []dpfm_api_output_formatter.PriceMaster
+	var priceMaster []dpfm_api_output_formatter.Header
 	for _, fn := range accepter {
 		switch fn {
 		case "PriceMaster":
@@ -30,12 +30,20 @@ func (c *DPFMAPICaller) readSqlProcess(
 			func() {
 				priceMaster = c.PriceMasters(mtx, input, output, errs, log)
 			}()
+		case "PriceMastersByBuyer":
+			func() {
+				priceMaster = c.PriceMastersByBuyer(mtx, input, output, errs, log)
+			}()
+		case "PriceMastersBySeller":
+			func() {
+				priceMaster = c.PriceMastersBySeller(mtx, input, output, errs, log)
+			}()
 		default:
 		}
 	}
 
 	data := &dpfm_api_output_formatter.Message{
-		PriceMaster: priceMaster,
+		Header: priceMaster,
 	}
 
 	return data
@@ -47,7 +55,7 @@ func (c *DPFMAPICaller) PriceMaster(
 	output *dpfm_api_output_formatter.SDC,
 	errs *[]error,
 	log *logger.Logger,
-) []dpfm_api_output_formatter.PriceMaster {
+) []dpfm_api_output_formatter.Header {
 	supplyChainRelationshipID := input.PriceMaster.SupplyChainRelationshipID
 	buyer := input.PriceMaster.Buyer
 	seller := input.PriceMaster.Seller
@@ -93,13 +101,81 @@ func (c *DPFMAPICaller) PriceMaster(
 	return data
 }
 
+func (c *DPFMAPICaller) PriceMastersByBuyer(
+	mtx *sync.Mutex,
+	input *dpfm_api_input_reader.SDC,
+	output *dpfm_api_output_formatter.SDC,
+	errs *[]error,
+	log *logger.Logger,
+) []dpfm_api_output_formatter.Header {
+	buyer := input.PriceMaster.Buyer
+	isMarkedForDeletion := input.PriceMaster.IsMarkedForDeletion
+
+	rows, err := c.db.Query(
+		`SELECT *
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_price_master_price_master_data
+		WHERE (
+		       Buyer,
+		       IsMarkedForDeletion
+		) = (?, ?);`,
+		buyer,
+		isMarkedForDeletion,
+	)
+	if err != nil {
+		*errs = append(*errs, err)
+		return nil
+	}
+
+	data, err := dpfm_api_output_formatter.ConvertToPriceMaster(input, rows)
+	if err != nil {
+		*errs = append(*errs, err)
+		return nil
+	}
+
+	return data
+}
+
+func (c *DPFMAPICaller) PriceMastersBySeller(
+	mtx *sync.Mutex,
+	input *dpfm_api_input_reader.SDC,
+	output *dpfm_api_output_formatter.SDC,
+	errs *[]error,
+	log *logger.Logger,
+) []dpfm_api_output_formatter.Header {
+	seller := input.PriceMaster.Seller
+	isMarkedForDeletion := input.PriceMaster.IsMarkedForDeletion
+
+	rows, err := c.db.Query(
+		`SELECT *
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_price_master_price_master_data
+		WHERE (
+		       Seller,
+		       IsMarkedForDeletion
+		) = (?, ?);`,
+		seller,
+		isMarkedForDeletion,
+	)
+	if err != nil {
+		*errs = append(*errs, err)
+		return nil
+	}
+
+	data, err := dpfm_api_output_formatter.ConvertToPriceMaster(input, rows)
+	if err != nil {
+		*errs = append(*errs, err)
+		return nil
+	}
+
+	return data
+}
+
 func (c *DPFMAPICaller) PriceMasters(
 	mtx *sync.Mutex,
 	input *dpfm_api_input_reader.SDC,
 	output *dpfm_api_output_formatter.SDC,
 	errs *[]error,
 	log *logger.Logger,
-) []dpfm_api_output_formatter.PriceMaster {
+) []dpfm_api_output_formatter.Header {
 	priceMster := input.PriceMaster
 	where := fmt.Sprintf("WHERE (Buyer = %d OR Seller = %d)", priceMster.Buyer, priceMster.Seller)
 
